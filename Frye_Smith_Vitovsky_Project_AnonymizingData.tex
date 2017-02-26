@@ -420,12 +420,12 @@
 % in the abstract or keywords.
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-The global challenge of how to truly anonymize data continues to evolve, as well as confound those who attempt to address it.  This paper critically reviews an array of anonymization theories and techniques, applying them to real-world situations, with the goal of helping others weigh the cost, benefit, and, most importantly, the ethics of anonymizing data.
+Big data certainly brings with it a series of challenges, one of them being privacy of these large data sets.  In the name of scientific progress, an amazing number of data sets have been released as a way to promote collaboration and development of the data science community.  This paper critically reviews an array of anonymization theories and techniques, applying them to real-world situations, with the goal of helping others weigh the cost, benefit, and, most importantly, the ethics of anonymizing data.
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-
+micro-data, k-anonymization, quasi-identifiers, unique identifiers, personal ly identifiable information (PII), high-dimensional data sets, sparcity
 \end{IEEEkeywords}}
 
 
@@ -485,11 +485,40 @@ The global challenge of how to truly anonymize data continues to evolve, as well
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{I}{S} it possible to truly anonymize data?  The community of those working to improve the privacy of data is not trivial; many have attempted and succeeded at expanding the capabilities to stretch the proverbial distance between entities and the data being collected on them. However, privacy is relative.  It is only as strong as the inability of those working to compromise it.  An instance of data, with seemingly no personally identifiable information, might actually be able to be used to provide a trail back to its original source.
-   
-Alongside of this is the usefulness of the data.  To what degree is the utility of the data conceded in the interest of privacy?  Is the collection and storage of data worth the end result, in relation to the danger the original user faces?
-   
-We set out to explore and provide answers to these questions.  There are certainly many resources already available to review, and techniques that have been tested.  Along with a vigorous review of existing research, we also will 1) critically review a selection of anonymized data sets for vulnerabilities, 2) consult with a company currently undertaking a significant new service that will demand the collection of anonymized data, including Personally Identifiable Information and private health information, and 3) test a series of anonymizing techniques on sample data sets to test their efficacy.
+\IEEEPARstart{O}{N} September 18, 2009, Netflix announced the winner of its “Netflix Prize competition”, a contest that asked contributors to improve upon Netflix’s existing algorithm that predicted subscriber’s future movie ratings.  With a prize of \$1,000,000, the competition certainly attracted many groups from all over the globe.  In the end, Netflix received 44,014 submissions from 41,305 teams, all who had analyzed the seemingly anonymized dataset of over 100,000,000 movie ratings by Netflix subscribers.
+
+According to the Netflix Prize website, which was still live at the time of this paper, “The data were collected between October, 1998 and December, 2005 and reflect the distribution of all ratings received by Netflix during this period. The ratings are on a scale from 1 to 5 (integral) stars. To protect customer privacy, all personal information identifying individual customers has been removed and all customer ids have been replaced by randomly-assigned ids. The date of each rating and the title and year of release for each movie are provided. No other customer or movie information is provided.“
+	
+Unfortunately for Netflix, resulting from this contest was a lawsuit for releasing this data, and an investigation by the Federal Trade Commission.    Apparently, one actually could identify actual users from this data set, as proven by two University of Texas researchers in 2008 \cite{narayanan}.  To make matters worse, Netflix did not end up using the winning algorithm, citing “engineering” challenges and the fact that their model was rapidly changing from DVDs to streaming\cite{johnston}.
+
+The repercussions from this anticlimax caused Netflix to cancel its Netflix Prize 2, drawing both praise and criticism.  Simply reading the comments section of various online articles covering this news reveals the various viewpoints of the importance (or non-importance) of privacy in today’s cyber world.  
+
+\begin{center}
+\textit{"I really don't see the problem with this..." \\– Killer Orca}\cite{anderson}
+
+\vspace{2mm}
+
+\textit{"You would think with that huge privacy snafu AOL had with their ‘anonymized’ search data that someone at Netflix would have realized this was a bad idea." \\– ozziegt}\cite{anderson}
+
+\vspace{2mm}
+
+\textit{"Just some lawyers looking for profit, hugely inflating the risks…" \\– Anonymous}\cite{cheng}
+
+\vspace{2mm}
+
+\textit{"Whether you consider it offensive or not should be irrelevant; if the data is private, they can’t 
+give it away." \\– danchr}\cite{ohm}
+
+\end{center}
+
+Even if Netflix had obtained user permission to release these ratings (which they did not), those who opted in surely would not have surmised that they could have been identified personally by a complete stranger unaffiliated with Netflix.  Certainly, Netflix would have assured that their ratings were anonymized, since that is what it believed to be the case as well. The trust that the subscribers would have placed in Netflix to better their experience, without compromising their privacy, would have been misplaced.
+	
+Today, there are several popular techniques for anonymizing data sets, but none are perfect.  Certain methods may work for a particular sized set of records, only to lose its credibility as that set scales over time.  Others may change the data so much that its dramatically declines to a data scientist. Is true anonymization even possible in this cyber world? The ability to pull public information from outside sources, to then match it with private data sets, has proven to be a very dangerous risk for institutions and the individuals that have entrusted them.
+	
+Our team seeks to investigate these most popular methods, weighing their effectiveness in regards to: 1) the size of a data set, 
+2)	the data type (i.e. categorical v. numerical attributes,
+3)	the effect on data science results (i.e. is there a change to a 95\% confidence interval because of the perturbation?),
+4)	deployment in various industries, particularly the medical and financial fields due to their collection of personal information and regulatory oversight.  We will then try to anonymize a data set we created, investigating how easy or difficult it is to garner identifying information from something seemingly innocuous.  Ultimately, we make final recommendations to the reader as to what we believe are essential questions a company should be reflecting upon as they consider their privacy policies and procedures.
 
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
@@ -499,14 +528,78 @@ We set out to explore and provide answers to these questions.  There are certain
  
 \hfill 
 
-\subsection{Subsection Heading Here}
-placeholder
+\subsection{Background}
 
 % needed in second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
 
-\subsubsection{Subsubsection Heading Here}
-placeholder
+\subsubsection{Existing Research / Techniques}
+
+	Before traveling too much further into these methods, it warrants mentioning that privacy itself has yet to be universally defined. One could say that privacy is when non-public information is made available to a third party, such as a social security number or the results from a medical test.  This insinuates that the nature of the data is what determines the need for privacy.  But what about those pesky ads that pop up on a smart phone?  Ads are to be expected, but what if they directly reflect the search history a user performed on a completely different device?  The discussion of what privacy means, particularly what a user authorizes others to collect, store and share, has yet to be answered in a world where mobile devices outnumber humans\cite{borne}. There are many individuals who would tell you that they feel their privacy has been violated by this collection and use of their search data.
+	
+	Of equal concern to the authors is the other end of the spectrum, which is the evidently voluntary surrender of the collection and use of one's data.  There are a large number of users who do not seem to take issue with their non-personal data being stored or sold to other companies.  The task of maintaining privacy is certainly overwhelming, and perhaps this is why so many users throw up a white flag and say, "Who cares?"  Perhaps, they simply do not want to think about the data that is out there, since there is presumably nothing that can be done about it.
+	
+	Adding on to this acceptance of the release of “unimportant” data is the common misconception that less privacy means more security.  When the FBI very publicly condemned Apple for not helping it unlock an iPhone that belonged to a gunman who helped kill fourteen people in San Bernardino, CA in 2015, there were many people who joined the FBI in the criticism.  The reality is that these keys to our privacy are not held behind a locked safe, guarded by trustworthy individuals.  Often our privacy is protected simply on an agreement of trust.  Not only would the FBI now have known how to unlock an iPhone, but there would have been employees of Apple that would have then been privy to the information as well.  Our message here is that the bounds around privacy should not be thought of as well-defined.  The questions must be asked so that those involved can properly reflect on the danger of using anonymized data and weigh it against any supposed benefit.
+	
+\subsubsection{Analysis of Existing Techniques}
+
+	Of particular interest to our paper were some of the more frequently employed anonymization techniques.  To be clear, our definition for these techniques fall more into the realm of “attempts” as it has been well documented that anonymization has continued to elude the cyber community [ENTER SEVERAL ENDNOTES OF OUR PAPERS WE READ, XIANG BAI-LI, LOUKIDES and NARAYANAN].  
+	
+\noindent \textbf{K-anonymization}
+
+	In researching k-anonymization, this technique is most widely used as a method for maintain as much statistical integrity.  By removing instances with less than k number of matching records, the data set seeks to protect the ease of finding “loners” by taking them out altogether.  For example, if you have 30,000 surgery patients, and all personal information has been removed, then it is possible to have multiple instances of the same data (i.e. twelve gallbladder removal surgeries).  However, as documented by Greg Loukides’ team,  the efficacy of this method on large sets of “anonymized data”  has its challenges\cite{loukides}.  K-anonymization acknowledges that those records that do not appear as often are at increased risk of being re-identified, so unless that record has k number of other records like it, it is removed.  While theoretically sound, the disadvantages are the computational power required on large data sets to find these counts, and the assumption that the remaining tuples are measurably more difficult to match to additional data.  
+	
+	Perhaps the domain comes into play here.  For medical information, physical attributes and maladies can often be accompanied by other instances of care.  It would be wise for those storing this data to understand the overall web of available data on someone who might only be treated for an infection.  This patient will most likely be prescribed antibiotics, which means there might be pharmacy information to match.   Consider a more multi-symptomatic  issue – high blood pressure.  Suppose a patient was being treated for this, but by his or her psychotherapist?  Now we have potentially devastating information that could alert someone in this person’s circle of friends, family, and work colleagues of a mental illness.
+	
+	The benefit of k-anonymization is not be ignored, however.  It certainly helps to avoid making the easiest to identify as low hanging fruit.  The benefit to statistical analysis is also to be given credit.  While one would not have the nuanced meaning that outliers can bring, with data sets being so large, the argument stands that these “one offs” can be ignored with the same level of confidence.
+[Try this on our data set?]
+
+\noindent \textbf{Sparse Data Sets}
+
+	Heavily used by many large corporations including Amazon, sparse data sets have become a very prevalent way to store tuples\cite{narayanan,gentry,rimes}.  Sparse data is kept in a much less comprehensive form, only confessing a small number of attributes per record.  This results in many more records, perhaps duplicate records, and a harder time for adversaries to draw connections among the many tuples.
+	
+	As tested by Narayanan and Shmatikov, this method has its drawbacks as well.  As the data set grows, it is easier for an adversary to find patterns and relationships in sparse data.  We liken it to the experience of purchasing groceries.  The cashier (or you, if you find yourself at a self-checkout kiosk) can either place many items in few bags, or only a few items inside of many bags.  Say you wanted to pull out all of the fruit.  If there are only a few items per bag, a literal “GROUPBY” function is easier with smaller bags as you can quickly see what is in each bag.  Conversely, if you were to have the bags with many items in them, the more bags you have, the longer it is going to take you to go through each one.  If there were only two or three bags with many items, it would not be a large task compared to the other method.  However, in the same way that large data sets continue to grow, if you now have to look through fifteen or twenty bags, it might take significantly longer just in processing time.
+	
+	Is this a textbook case of a priori?  It seems absolutely foolish to contain too much information in a record.  One would be giving adversaries much more data to work off of and not making them look for it. But is this the real world scenario? Perhaps the answer is in the nature of the data.  Sparse data has been adopted as much safer than comprehensive, and to us, it makes sense.  Data engineers are then tasked with comprehending 1) what they know about the data relationships, and 2) what an adversary might know.  If relationships are hard to draw conceptually, sparse data is more robust to attacks.  However, if each tuple is simple in nature, such as purchases for an online retailer, a company would just need to employ additional measures to further mask the data.  Knowing that an anonymous user’s high blood pressure diagnosis is linked to depression is perhaps a harder reach than, say, knowing someone who purchased milk most likely also bought cereal, children’s foods, or beer on the same visit.
+	  
+	Of course, armed with additional, outside data, such as credit card transactions for a certain zip code, this situation become even more vulnerable.  Regarding the blood pressure scenario from above, perhaps an adversary knows from this outside data, the purchase amount at a pharmacy.  He or she sees that this amount is very large, and the patient most likely picked up additional items.  Even armed with this limited information, an adversary could begin formalizing guesses at to other needs this person had.  Indeed, Narayanan and Shmatikov proved how adversaries knowing very little of the data, or even what they were looking for, could use these generalities to completely re-identify a user\cite{narayanan}.
+	
+\noindent \textbf{Perturbation}
+
+-	What is it
+
+-	Example
+
+-	Should we try it on our data set?
+
+-	Advantages v disadvantages
+
+\noindent \textbf{Deletion of Data}
+
+-	Value to a company
+
+-	Challenge it presents to indexing in databases
+
+-	Does it create good will
+
+\section{Testing of a Dataset}
+
+Our Data set
+
+-	How it was built
+
+-	Attempt at anonymizing it
+
+-	Vulnerabilities for de-anonymization
+
+\section{Recommendation}
+
+-	Decision tree approach to anonymization
+
+-	Set of recommended questions / assumptions for corporations to use
+
+-	Set of recommended questions / assumptions for users
+
 
 
 % An example of a floating figure using the graphicx package.
@@ -680,11 +773,39 @@ The IEEE for this template, TRANS-JOUR.DOC
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
+\begin{thebibliography}{9}
+\bibitem{narayanan}
+Narayanan, Arvind and Vitaly Shmatikov \emph{Robust De-anonymization of Large Sparse Datasets}. \hskip 1em plus 0.5em minus 0.4em\relax SP ’08 Proceedings of the 2008 IEEE Symposium on Security and Privacy. 2008.
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+\bibitem{johnston}
+Johnston, Casy. \emph {Netflix Never Used Its \$1 Million Algorithm Due to Engineering Costs}. \hskip 1em plus 0.5em minus 0.4em\relax Wired Magazine. https://www.wired.com/2012/04/netflix-prize-costs/.  April 2012.
+
+\bibitem{anderson}
+Anderson, Nate. \emph {Neflix Prize 2 (Privacy) Apocalpyse Now?}\hskip 1em plus 0.5em minus 0.4em\relax  ars Technica.  https://arstechnica.com/tech-policy/2009/09/netflix-prize-2-privacy-apocalypse-now/?comments=1. September 2009.
+
+\bibitem {ohm}
+Ohm, Paul.  \emph{Netflix Cancels the Netflix Prize 2}. \hskip 1em plus 0.5em minus 0.4em\relax Freedom to Tinker.com. https://freedom-to-tinker.com/2010/03/12/netflix-cancels-netflix-prize-2/. March 2010.
+
+
+\bibitem{cheng}
+Cheng, Jacqui. \emph{Netflix settles privacy lawsuit, ditches \$1 million contest}. \hskip 1em plus 0.5em minus 0.4em\relax ars Technica. https://arstechnica.com/tech-policy/2010/03/netflix-ditches-1-million-contest-in-wake-of-privacy-suit/?comments=1.  March 2010.
+
+\bibitem {borne}
+Borne, Zachary Davies. \emph{There Are Officially More Mobile Devices Than People in the World}. \hskip 1em plus 0.5em minus 0.4em\relax  Independent.co.uk.  http://www.independent.co.uk/life-style/gadgets-and-tech/news/there-are-officially-more-mobile-devices-than-people-in-the-world-9780518.html. October 2014.
+
+\bibitem{loukides}
+Loukides, Grigorios Aris Gkoulalas-Divanis, and Bradley Mali. \emph{Anonymization of electronic medical records for validating genome-wide association studies}. \hskip 1em plus 0.5em minus 0.4em\relax Proceedings of the National Academy of Sciences of the United States of America. Vol. 107, No. 17, pp 7898-7903.  April 2010. 
+
+\bibitem {gentry}
+Gentry, Jerry. \emph {Big Data vs. Sparse Data}. \hskip 1em plus 0.5em minus 0.4em\relax Data Center Knowledge.  http://www.datacenterknowledge.com/archives/2012/10/11/big-data-versus-sparse-data/.  October 2012.
+
+\bibitem {rimes}
+Rimes. \emph{The difference between "dense" and "sparse" data}.  \hskip 1em plus 0.5em minus 0.4em\relax.  Rimes.com.  https://www.rimes.com/insights/the-difference-between-dense-and-sparse-data/.  February 2012.
+  
+\bibitem{kopka}
+H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+
+
 
 \end{thebibliography}
 
