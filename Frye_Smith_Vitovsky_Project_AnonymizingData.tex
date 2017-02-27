@@ -541,6 +541,39 @@ Our team seeks to investigate these most popular methods, weighing their effecti
 	
 	Adding on to this acceptance of the release of “unimportant” data is the common misconception that less privacy means more security.  When the FBI very publicly condemned Apple for not helping it unlock an iPhone that belonged to a gunman who helped kill fourteen people in San Bernardino, CA in 2015, there were many people who joined the FBI in the criticism.  The reality is that these keys to our privacy are not held behind a locked safe, guarded by trustworthy individuals.  Often our privacy is protected simply on an agreement of trust.  Not only would the FBI now have known how to unlock an iPhone, but there would have been employees of Apple that would have then been privy to the information as well.  Our message here is that the bounds around privacy should not be thought of as well-defined.  The questions must be asked so that those involved can properly reflect on the danger of using anonymized data and weigh it against any supposed benefit.
 	
+\subsection{Testing of a Dataset}
+To experience an anonymization as well as de-anonymization for ourselves, we created a fake data set of 4,000 records.  The attributes included are:
+
+\begin{table} [ht]
+\caption{Dataset Attributes}
+\begin{tabular}{|l|l|}
+\hline
+Name & string divided into first name, middle name,\\and  & and last name\\
+\hline
+Sex & categorical of male or female\\
+\hline
+Age & numerical\\
+\hline
+Ethnicity / race & categorical\\
+\hline
+Hispanic / Latino & binary categorical yes / no\\
+\hline
+Hair color & categorical\\
+\hline
+Eye Color & categorical\\
+\hline 
+Address & string\\
+\hline
+Phone number & string\\
+\hline
+
+\end{tabular}
+\end{table}
+
+This data set was generated randomly, and provides us with several opportunities to try common anonymization techniques discussed in this paper.  The attributes were chose to reflect common member records that would go under de-identification methods such as 1) changing addresses to zip codes, 2) changing specific ages to an age range, 3) keeping only the area code of a phone number, 4) removing all names and replacing with one field of an assigned identification number, and 5) dividing the columns into less comprehensive tuples.
+
+
+	
 \subsubsection{Analysis of Existing Techniques}
 
 	Of particular interest to our paper were some of the more frequently employed anonymization techniques.  To be clear, our definition for these techniques fall more into the realm of “attempts” as it has been well documented that anonymization has continued to elude the cyber community [ENTER SEVERAL ENDNOTES OF OUR PAPERS WE READ, XIANG BAI-LI, LOUKIDES and NARAYANAN].  
@@ -582,16 +615,18 @@ Our team seeks to investigate these most popular methods, weighing their effecti
 
 -	Does it create good will
 
-\section{Testing of a Dataset}
 
-Our Data set
+\section{De-anonymization}
+[ouline] To preface our discussion of de-anonymization we will\\
 
--	How it was built
-
--	Attempt at anonymizing it
-
--	Vulnerabilities for de-anonymization
-
+\noindent A. Assumptions of an adversary's knowledge\\
+\indent i. how they differ from traditional assumptions\\
+\indent ii. how algorithms lend themselves to an adversary with limited knowledge\\
+\noindent B. Robustness to techniques explained above (k-anonymization, perturbation, etc)\\
+\noindent C. Examples of Netflix de-anonymization discoveries and what it means for companies\\
+\noindent D. How our data set might be compromised by an adversary\\
+\indent i. real-world implications of re-identification\\
+\indent ii. least likely and most likely de-anonymization risks\\
 \section{Recommendation}
 
 -	Decision tree approach to anonymization
