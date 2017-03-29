@@ -114,6 +114,12 @@ else:
 		(63,"A+"),
 		(100,"O+")
 	])
+	
+	attribute_zvirus = OrderedDict([
+		(20,"Infected"),
+		(50,"Carrier"),
+		(100,"Immune")
+	])
 
 	def generateAttribute(attList):
 		rndm = random.randint(1,100)
@@ -206,7 +212,7 @@ else:
 		return str(random.randint(100,999)) + "-" + str(random.randint(10,99)) + "-" + str(random.randint(1000,9999))
 		
 	def createObservation():
-		#Name, Sex, Age, Ethnicity/Race, Hispanic/Latino, Blood Type, Hair Color, Eye Color, Address, City, State, Zip, Phone Number, Blood Type
+		#Name, Sex, Age, Ethnicity/Race, Hispanic/Latino, Blood Type, Hair Color, Eye Color, Address, City, State, Zip, Phone Number, Blood Type, Z-Virus
 		name = generateName() #Last Name, First Name, Middle Name
 		sex = generateAttribute(attribute_sex)
 		age = generateAge()
@@ -217,12 +223,13 @@ else:
 		phone = generatePhone(address[2])
 		blood_type = generateAttribute(attribute_blood_type)
 		ssn = generateSSN()
+		zvirus = generateAttribute(attribute_zvirus)
 		
-		return name[0] + "," + name[1] + "," + name[2] + "," + sex + "," + age + "," + race[0] + "," + race[1] + "," + blood_type + "," + hair_color + "," + eye_color + "," + address[0] + "," + address[1] + "," + address[2] + "," + address[3] + "," + phone + "," + ssn
+		return name[0] + "," + name[1] + "," + name[2] + "," + sex + "," + age + "," + race[0] + "," + race[1] + "," + blood_type + "," + hair_color + "," + eye_color + "," + address[0] + "," + address[1] + "," + address[2] + "," + address[3] + "," + phone + "," + ssn + "," + zvirus
 
 	print("Generating Sample...")
 	
-	#sample.append("Last Name, First Name, Middle Name, Sex, Age, Ethnicity/Race, Hispanic/Latino, Blood Type, Hair Color, Eye Color, Street Address, City, State, Zip, Phone Number, Social Security Number")
+	#sample.append("Last Name, First Name, Middle Name, Sex, Age, Ethnicity, Hispanic_Latino, Blood Type, Hair Color, Eye Color, Street Address, City, State, Zip, Phone Number, Social Security Number, Z Virus")
 	
 	i = 0
 	while (i < sampleSize):
