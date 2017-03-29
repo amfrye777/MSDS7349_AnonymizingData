@@ -30,7 +30,7 @@ f = open('zipCodes.csv','r')
 ZipRanges = f.readlines()
 f.close()
 
-sampleSize = 1000
+sampleSize = 10000
 
 sample = []
 
@@ -223,7 +223,7 @@ while (i < sampleSize):
 	sample.append(createObservation())
 	i = i + 1
 
-f = open('sample.csv','w')
+f = open('dataset.csv','w')
 for observation in sample:
 	f.write(observation + "\n")
 f.close()
