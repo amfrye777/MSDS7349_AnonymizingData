@@ -573,11 +573,11 @@ Phone number & string\\
 This data set was generated randomly, and provides us with several opportunities to try common anonymization techniques discussed in this paper.  The attributes were chose to reflect common member records that would go under de-identification methods such as 1) changing addresses to zip codes, 2) changing specific ages to an age range, 3) keeping only the area code of a phone number, 4) removing all names and replacing with one field of an assigned identification number, and 5) dividing the columns into less comprehensive tuples.
 
 
-	
 \subsubsection{Analysis of Existing Techniques}
 
-	Of particular interest to our paper were some of the more frequently employed anonymization techniques.  To be clear, our definition for these techniques fall more into the realm of “attempts” as it has been well documented that anonymization has continued to elude the cyber community [ENTER SEVERAL ENDNOTES OF OUR PAPERS WE READ, XIANG BAI-LI, LOUKIDES and NARAYANAN].  
+	Of particular interest to our paper were some of the more frequently employed anonymization techniques.  To be clear, our definition for these techniques fall more into the realm of “attempts” as it has been well documented that anonymization has continued to elude the cyber community [ENTER SEVERAL ENDNOTES OF OUR PAPERS WE READ, XIANG BAI-LI, LOUKIDES and NARAYANAN].  \linebreak
 	
+
 \noindent \textbf{K-anonymization}
 
 	In researching k-anonymization, this technique is most widely used as a method for maintain as much statistical integrity.  By removing instances with less than k number of matching records, the data set seeks to protect the ease of finding “loners” by taking them out altogether.  For example, if you have 30,000 surgery patients, and all personal information has been removed, then it is possible to have multiple instances of the same data (i.e. twelve gallbladder removal surgeries).  However, as documented by Greg Loukides’ team,  the efficacy of this method on large sets of “anonymized data”  has its challenges\cite{loukides}.  K-anonymization acknowledges that those records that do not appear as often are at increased risk of being re-identified, so unless that record has k number of other records like it, it is removed.  While theoretically sound, the disadvantages are the computational power required on large data sets to find these counts, and the assumption that the remaining tuples are measurably more difficult to match to additional data.  
@@ -586,6 +586,7 @@ This data set was generated randomly, and provides us with several opportunities
 	
 	The benefit of k-anonymization is not be ignored, however.  It certainly helps to avoid making the easiest to identify as low hanging fruit.  The benefit to statistical analysis is also to be given credit.  While one would not have the nuanced meaning that outliers can bring, with data sets being so large, the argument stands that these “one offs” can be ignored with the same level of confidence.
 [Try this on our data set?]
+\linebreak
 
 \noindent \textbf{Sparse Data Sets}
 
@@ -593,47 +594,75 @@ This data set was generated randomly, and provides us with several opportunities
 	
 	As tested by Narayanan and Shmatikov, this method has its drawbacks as well.  As the data set grows, it is easier for an adversary to find patterns and relationships in sparse data.  We liken it to the experience of purchasing groceries.  The cashier (or you, if you find yourself at a self-checkout kiosk) can either place many items in few bags, or only a few items inside of many bags.  Say you wanted to pull out all of the fruit.  If there are only a few items per bag, a literal “GROUPBY” function is easier with smaller bags as you can quickly see what is in each bag.  Conversely, if you were to have the bags with many items in them, the more bags you have, the longer it is going to take you to go through each one.  If there were only two or three bags with many items, it would not be a large task compared to the other method.  However, in the same way that large data sets continue to grow, if you now have to look through fifteen or twenty bags, it might take significantly longer just in processing time.
 	
-	Is this a textbook case of a priori?  It seems absolutely foolish to contain too much information in a record.  One would be giving adversaries much more data to work off of and not making them look for it. But is this the real world scenario? Perhaps the answer is in the nature of the data.  Sparse data has been adopted as much safer than comprehensive, and to us, it makes sense.  Data engineers are then tasked with comprehending 1) what they know about the data relationships, and 2) what an adversary might know.  If relationships are hard to draw conceptually, sparse data is more robust to attacks.  However, if each tuple is simple in nature, such as purchases for an online retailer, a company would just need to employ additional measures to further mask the data.  Knowing that an anonymous user’s high blood pressure diagnosis is linked to depression is perhaps a harder reach than, say, knowing someone who purchased milk most likely also bought cereal, children’s foods, or beer on the same visit.
+	Is this a textbook case of \textit{a priori}?  It seems absolutely foolish to contain too much information in a record.  One would be giving adversaries much more data to work off of and not making them look for it. But is this the real world scenario? Perhaps the answer is in the nature of the data.  Sparse data has been adopted as much safer than comprehensive, and to us, it makes sense.  Data engineers are then tasked with comprehending 1) what they know about the data relationships, and 2) what an adversary might know.  If relationships are hard to draw conceptually, sparse data is more robust to attacks.  However, if each tuple is simple in nature, such as purchases for an online retailer, a company would just need to employ additional measures to further mask the data.  Knowing that an anonymous user’s high blood pressure diagnosis is linked to depression is perhaps a harder reach than, say, knowing someone who purchased milk most likely also bought cereal, children’s foods, or beer on the same visit.
 	  
 	Of course, armed with additional, outside data, such as credit card transactions for a certain zip code, this situation become even more vulnerable.  Regarding the blood pressure scenario from above, perhaps an adversary knows from this outside data, the purchase amount at a pharmacy.  He or she sees that this amount is very large, and the patient most likely picked up additional items.  Even armed with this limited information, an adversary could begin formalizing guesses at to other needs this person had.  Indeed, Narayanan and Shmatikov proved how adversaries knowing very little of the data, or even what they were looking for, could use these generalities to completely re-identify a user\cite{narayanan}.
-	
+\linebreak	
 \noindent \textbf{Perturbation}
 
--	What is it
-
--	Example
-
--	Should we try it on our data set?
-
--	Advantages v disadvantages
+	Another method used to anonymize data is to actually change the attributes enough to create further distance from a given source, but not so much as to statistically alter data science efforts.  Common examples are to create ranges and categories out of numerical fields, or to use internal identifiers instead of more publicly recognizable attributes.  In fact, perturbation is also used as a way to actually detect data leaks,  based on the theory that if a particular recipient is given a data set that was perturbed with a certain dictionary of identifiers, and this information is found somewhere it should not have been, you can determine which party released the data since there is no other recipient that had that particular set of identifiers.
+	
+	Common examples of perturbation include:\linebreak
+	
+	* Removing Personal Identifiable Information (PIIs) and replacing with an ID number. \linebreak
+	
+	* Taking a scalar value and applying ranges.  Instead of ages, the owner of the data could use age ranges that mask the exact answer.\linebreak
+	
+	* Selectively altering or even deleting data to create doubt in a bad actor.  If a malicious party has, say, matched up a perturbed data set with another set found online, the principle here is that they have a reduced chance of correctly determining a subject's attribute values.  
+	* Changing the definition of certain attributes.  For example, if the need for a data set is to review density of certain attributes, then it does not matter if the values reflect the original values.  As long as the correct scale is used, one could change, say, zip codes to names of fruits and vegetables.  Of course, this might cause more confusion than value depending on the purpose of the data mining activity, so the owner of the data would need to know the purpose of a data scientist to correctly perform this technique.\linebreak
+	
+	* Use a "watermark" to discourage data leaks.  Watermarking involves altering the data to embed a secret code per subset / data set that is given out.  This helps a data source know who leaked a data set because each recipient received a different watermark.\linebreak
+	
+	Of course, no method is perfect, and neither is perturbation.  If one does not consider \textit{why} a data set is needed, perturbing certain fields could make the data unusable.  The number of fields released directly affects the strength of a perturbed attribute.  500,000 records with their ages changed to age ranges is very different from 100 records.  The more a malicious attacker would has to work with, the greater the chance that he or she can figure out a "secret" alteration method, especially if that field is now a category where there are not as many "wrong answers".  Remember, an attacker does not necessarily have to be exactly right in their guess.  Even having a broad guess of where someone might fall has been proven dangerous to the confidentiality of a data set, as evidenced by the Netflix prize fiasco \cite{narayanan}.  Finally, watermarks are not effective if an attacker has discovered how to delete it.  
+	
+	Perturbation is certainly a way to cause doubt for an attacker, but it must be taken into consideration with other factors.  The size of the data set, distribution of the various attribute values, and the confusion it could cause for a data scientist indicate that additional techniques and factors need to be considered before this method is held up as the solution to a problem.\linebreak
 
 \noindent \textbf{Deletion of Data}
 
--	Value to a company
+	Similar to perturbation, deletion of data alters a data set, if not completely eliminates it.  One might wonder what the point is, since deleting a data set would effectively make it anonymous, but there are interesting results from this method that warrant further explanation.
+	
+	Firstly, virtual deletion of part of a data set is routinely performed by creating subsets. Here you limit what is given out to reduce the chances of identifying a subject.  This is, of course, a sparse data set technique.  However, what if an entity actually truly deleted attributes permanently in the interest of protecting more sensitive fields?  
+	
+	For example, say there is a medical data set that held information showing subjects' zip codes, ages, names of hospitals visited,  number of days they were in the hospital, and the diagnostic codes of whatever they were were in the hospital for.  Is is imperative that we have a subject's zip code?  Is knowing the hospital visited essentially the same thing and would this be enough for the quesion at hand?  But does knowing the hospital \textit{likely} to give away a zip code anyway, in which case perturbation of the hospital name would be necessary?
+	
+	To make matters more challenging, permanent deletion of data, especially partial, can create a new host of problems for databases.  Indexing can be disturbed if too many records are deleted, resulting in energy waste as a database interface searches through empty locations.  Keys (or lack thereof) also present a problem.  Deleting a field such as a social security number might seem like a reasonable idea, but if that field serves as at least one primary key in any of the database records, the results could be catastrophic.\linebreak
 
--	Challenge it presents to indexing in databases
-
--	Does it create good will
+	That being said, in an age where data leaks have put consumers at risk and hurt various companies bottom lines (think Yahoo!'s reduced purchase price following a data breach \cite{albanesius} , is deletion of data actually a good move to create good will? While "Big Data" seems to be at the forefront of many companies' minds, many entities seem to have an inability to handle it against malicious attacks.  Perhaps a company could receive more value from promoting that they \textit{delete} data instead of store it.  This would take a commitment and understanding well in advance of a database design to avoid operational impediments, or simply enough flexibility that a corporation could actually do this without putting themselves at more risk of net lost sales or decreased operational efficiency.
 
 
 \section{De-anonymization}
-[ouline] To preface our discussion of de-anonymization we will\\
+	To gain a better understanding of how effective various anonymization techniques are, our team explored de-anonymization methods as well.  We did this by reading existing papers and articles and by actually testing certain de-anonymization processes on our sample data set.
+	The following points are worth noting as background knowledge before any type of de-anonymization. \linebreak
 
-\noindent A. Assumptions of an adversary's knowledge\\
-\indent i. how they differ from traditional assumptions\\
-\indent ii. how algorithms lend themselves to an adversary with limited knowledge\\
-\noindent B. Robustness to techniques explained above (k-anonymization, perturbation, etc)\\
-\noindent C. Examples of Netflix de-anonymization discoveries and what it means for companies\\
-\noindent D. How our data set might be compromised by an adversary\\
+	*\textbf{Assumptions of an adversary's knowledge:} a bad actor might have only general knowledge about the fields in a data set.  It is not impossible for someone to explore a data set and find likely identifiers with what they deem as a satisfactory level of confidence.  Therefor, just because an exact value cannot be determined by an attacker, a general idea might be enough for their uses.\linebreak
+	
+	\textbf{Acceptance of the power of data:}  a simple gut check of "what could one possibly get out of this data?" is not a valid test against the vulnerability of a data set.  As evidenced by the Netflix prize de-anonymization, Narayanan and Shmatikov were able to take seemingly innocuous information and tie it back to names individuals. \cite{narayanan}  To assume that data is not "important enough" or too "vague" could be considered gross negligence in this age of digital security enlightenment. \linebreak
+	
+	\textbf{Acknowledgment of the repercussions of shared data:} it is important to know that implications exist for subjects whose data is known by others.  Being able to identify who someone is based on their movie reviews may seem harmless, but in the wrong hands, it could be used to punish someone for their political or religious views.  For those who would balk at the weight of such a discovery, the ability to then match up names with another publicly available data set, could truly make this situation a nightmare for a company. 
+	
+	Additionally, once an attacker has at least something to work with, even just a name, there is a myriad of other activities one could perform to gain additional knowledge on a data set.  For example, an attacker can make physical phone calls or send electronic messages to various parties to retrieve additional knowledge on a very small piece of information they garnered from a dataset.  They can then return to that same data set or another data set with this more complete picture of a subject's life to find out additional information.  In other words, an attacker's knowledge of a data set is not necessarily limited to mining data sets.\linebreak
+	
+	\textbf{Algorithms can be your enemy:} for an adversary with limited knowledge about the subjects or data set, an algorithm can speed up their investigation and narrow down the list of possible values. In fact, it was an algorithm that helped Narayanan and Shmatikov gain significant progress in connecting subjects with their data.  For those adversaries who are not working with much information to start with, but who have an effective algorithm, they are no longer looking for a needle in a haystack.\linebreak
+
+\subsubsection{Testing of De-anonymization on Our Data Set}
+	
+	
+ How our data set might be compromised by an adversary\\
 \indent i. real-world implications of re-identification\\
 \indent ii. least likely and most likely de-anonymization risks\\
 \section{Recommendation}
 
--	Decision tree approach to anonymization
+	It is not reasonable to avoid data collection and sharing altogether.  Thus, we have compiled a series of recommendations that we would advise to those interested in having a better realization of the remaining vulnerability of their anonymization techniques.\linebreak
+	
+1. Actively attempt to de-anonymize data sets.  Depending on the sensitivity of the data, this might need to be performed by individuals not privvy to the anonymization processes used.\linebreak
 
--	Set of recommended questions / assumptions for corporations to use
+2.  Put aside personal bias, and spend time exploring the danger of a data set's attributes being known.  A "once over" is not enough.  Seemingly innocuous data can actually be harmful if in the wrong hands.\linebreak
 
--	Set of recommended questions / assumptions for users
+3.  Consider using multiple anonymization techniques.  Test along the way to see how this affects statistical analysis.\linebreak
+
+4.  Work to understand the goal of a data mining activity before providing data sets. Consider using subsets, and weigh the the value of data mining activities with the vulnerability of the subjects' information.\linebreak
+
+5.  Consider the long range goals of an organization before employing the use of public contests.  Will you even need this winning algorithm or model in the long term?
 
 
 
@@ -839,6 +868,9 @@ Rimes. \emph{The difference between "dense" and "sparse" data}.  \hskip 1em plus
   
 \bibitem{kopka}
 H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+
+\bibitem{albanesius}
+Albanesius, Chloe. \emph{After Breach, Verizon Drops Yahoo Purchase Price by \$350M}. \hskip 1em plus 0.5em minus 0.4em\relax PC News. 1em plus 0.5em minus 0.4em\relax. February 2017.
 
 
 
