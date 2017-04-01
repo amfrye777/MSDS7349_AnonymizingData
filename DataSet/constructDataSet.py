@@ -233,7 +233,7 @@ else:
 	
 	i = 0
 	while (i < sampleSize):
-		sample.append(createObservation())
+		sample.append(str(i) + "," + createObservation())
 		i = i + 1
 
 	f = open('dataset.csv','w')
