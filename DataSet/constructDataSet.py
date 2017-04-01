@@ -39,8 +39,8 @@ else:
 	sample = []
 
 	attribute_sex = OrderedDict([
-		(50,"male"),
-		(100,"female")
+		(50,"0"),
+		(100,"1")
 	])
 
 	attribute_age = OrderedDict([
