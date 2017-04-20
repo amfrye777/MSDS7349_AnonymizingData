@@ -679,7 +679,7 @@ Attributes ``State`` and ``Hispanic Latino`` were untouched during this process 
 
 \noindent \textbf{ Anonymizing with Stratification of the Response}
 
-We were concerned about the distributions of each classifier matching publicly available data. For example, the American Red Cross shares publicly blood type distributions by ethnicity type . We feared that information like this, and similar information for other attributes, may make it possible to identify data even after perturbation (as discussed in the next section). As one can see by viewing our complete Python Notebook, by pulling equal distributions of each ZVirus type (a fake virus we randomly assigned to observations in the data set), we slightly skewed the predictable distributions based on available population data. This also helps with prediction for our open source contributors, as we help eliminate bias towards dominating classes.
+We were concerned about the distributions of each classifier matching publicly available data. For example, the American Red Cross shares publicly blood type distributions by ethnicity type . We feared that information like this, and similar information for other attributes, may make it possible to identify data even after perturbation (as discussed in the next section). As one can see by viewing our complete iPython Notebook, by pulling equal distributions of each ZVirus type (a fake virus we randomly assigned to observations in the data set), we slightly skewed the predictable distributions based on available population data. This also helps with prediction for our open source contributors, as we help eliminate bias towards dominating classes.
 
 When identifying how many records are remaining in each ZVirus category, we found that within the remaining dataset, our least frequent ZVirus type was "Infected" with a frequency of 1528. In order to stratify, this means we could not have a sample size larger than 1528 * 3 = 4584. Our chosen stratification was random samples without replacement taking 1,250 samples within each ZVirus type for a total sample size of 3,750.\linebreak
 
@@ -705,32 +705,30 @@ Since Texas is not the first state in which this study has taken place, Bob is f
 		
 		*``State``
 		
-To produce an example dataset of this visual attack, we randomly selected 50 records from Texas in our original Dataset - storing only these attributes. In practice, there would be an error margin reducing the effectiveness of this data gathering technique, but for the purpose of this exercise we selected straight from the original data.\linebreak
+To produce an example dataset of this visual attack, we randomly selected 50 records from Texas in our original Dataset - storing only these attributes. In practice, there would be an error margin reducing the effectiveness of this data gathering technique, but for the purpose of this exercise we selected straight from the original data.   \linebreak
 
 
 \noindent \textbf {Is Stratification and K-Anonymization after removing PII sufficient?}
 
-Pertubation on a dataset creates a number of problems when it comes to interpreting and utilizing the data, thus many times you may be inclined to avoid doing so. Given our dataset, shared after removing PII / K-Anon Records and Stratifying the result set, Bob is able to attempt to detect a given individual from his 50 observations.
-The first step in this process, was to aggregate the shared dataset on the attributes Bob was able to capture visually from his photographs ("Sex","Ethnicity", "Hispanic Latino", "HairColor", and "State"), computing the count for each. This allowed us to exploit the more unique characteristic of each observation by the combination of all values captured vs looking at one in particular.
+As one is able to see in detail from viewing our iPython Notebook, Bob is able to get quite far in his efforts, identifying the Z-virus status of two individuals with high certainty.  Pertubation on a dataset creates a number of problems when it comes to interpreting and utilizing the data, thus many times you may be inclined to avoid doing so. Given our dataset, shared after removing PII / K-Anon Records and Stratifying the result set, Bob is able to attempt to detect a given individual from his 50 observations.
 
 	
 
-\section{Recommendation}
+\section{Conclusion}
 
 	It is not reasonable to avoid data collection and sharing altogether.  Thus, we have compiled a series of recommendations that we would advise to those interested in having a better realization of the remaining vulnerability of their anonymization techniques.\linebreak
 	
 1. Actively attempt to de-anonymize data sets.  Depending on the sensitivity of the data, this might need to be performed by individuals not privvy to the anonymization processes used.\linebreak
 
-2.  Put aside personal bias, and spend time exploring the danger of a data set's attributes being known.  A "once over" is not enough.  Seemingly innocuous data can actually be harmful if in the wrong hands.\linebreak
+2.  Treat normally innocuous data as weaknesses for an attacker to exploit. \linebreak
 
 3.  Consider using multiple anonymization techniques.  Test along the way to see how this affects statistical analysis.\linebreak
 
-4.  Work to understand the goal of a data mining activity before providing data sets. Consider using subsets, and weigh the the value of data mining activities with the vulnerability of the subjects' information.\linebreak
+4.  Work to understand the goal of a data mining activity before providing data sets. Consider using subsets, and weigh the the value of data mining activities with the vulnerability of the subjects` information.\linebreak
 
-5.  Consider the long range goals of an organization before employing the use of public contests.  Will you even need this winning algorithm or model in the long term?
+5.  Consider the long range goals of an organization before employing the use of public contests.  Will you even need this winning algorithm or model in the long term?\linebreak
 
-
-
+After attempting to use current, widespread anonymization techniques on a data set, we found there is little standing in the way of an attacker determining at least a few attributes of a data set.  Additional findings specific to our experiment can, again, be found on our github repository \cite{frye}.
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
@@ -828,10 +826,6 @@ The first step in this process, was to aggregate the shared dataset on the attri
 
 
 
-
-\section{Conclusion}
-Where our amazing conclusion will go.
-
 \newpage
 % if have a single appendix:
 %\appendix[Proof of the Zonklar Equations]
@@ -848,14 +842,11 @@ Where our amazing conclusion will go.
 %
 
 
-\appendices
-\section{}
-placeholder
+
 
 % you can choose not to have a title for an appendix
 % if you want by leaving the argument blank
-\section{}
-placeholder
+
 
 
 % use section* for acknowledgment
