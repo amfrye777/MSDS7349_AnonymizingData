@@ -712,6 +712,26 @@ To produce an example dataset of this visual attack, we randomly selected 50 rec
 
 As one is able to see in detail from viewing our iPython Notebook, Bob is able to get quite far in his efforts, identifying the Z-virus status of two individuals with high certainty.  Pertubation on a dataset creates a number of problems when it comes to interpreting and utilizing the data, thus many times you may be inclined to avoid doing so. Given our dataset, shared after removing PII / K-Anon Records and Stratifying the result set, Bob is able to attempt to detect a given individual from his 50 observations.
 
+\noindent \textbf{Is Perturbation sufficient?}
+
+Given that Bob was ultimately able to identify two individuals even if he was using an associated dataset, perturbation certainly should be considered for all datasets and weighed against the difficulties of ultimately interpreting the final model. But is a perturbed dataset the end-all-be-all of anonymization? Could individuals still be identified?
+
+Let's start over, but this time Bob has only a set of the perturbed data. If he can successfully reverse engineer the datset into human readable terms, then it's possible for him to identify an individual in the same method as above.
+The first step, of course, is seeing if Bob can decode the hash/encryption.
+
+A note on this process. We used a weak hashing method on purpose to illustrate a possible method of attack. A cryptographically secure method would not use a dictionary based salt, nor would that salt be static and independent of both the generator of the dataset and the recipient of the downloaded dataset.
+
+Essentially, what we attempted to do is create a forced hash collision by using what we know about the data. For example, both the "Hispanic Latino" and the "Sex" columns appear to be binary, however, they have different values. This means context neutral classifier values such as 0 or 1 are unlikely for either one column or both. As such, it will be simpler to start with the sex column as values within that feature would be limited to "Male" or "Female", "m" or "f", and other variations.
+
+But before we even break out our coding IDE, we need to use a hacker's best friend: Google. All we have to do is copy and paste our given hashes into the search bar. This will let us know if the hashes have already been calculated before, and if they have, what the value is.
+
+A quick search of either of the unique values in the "Sex" column tells us that either they aren't common values or a salt has been used (non exclusive or). If they were common values without a salt, then we would have turned up a few pages with the hash and probably its equivalency. For example, searching for a particular hash value gave us "dog" using SHA256.
+
+This means we have to attempt a bruteforce. Now we know based on the length of the hash, that it's most likely SHA256. What we don't know is how or if a salt was used. Normally in a better brute force function, there'd be a greater variety of attempts for mixing the salt with the hash function. There would also likely be a larger dictionary and a few other tricks, but for the purposes of this exercise, using a little bit of code was sufficient \cite{frye}.
+
+In this instance, the binary classification meant it was almost trivial to guess at values.  This means the security rest entirely on the salt.  In less than one second, we were able to evaluate a list of 10,000 passwords.
+
+
 	
 
 \section{Conclusion}
