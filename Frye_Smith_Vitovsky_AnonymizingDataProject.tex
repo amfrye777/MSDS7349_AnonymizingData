@@ -326,7 +326,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Anonymization of Data\\MSDS 7349 Project Draft}
+\title{Anonymization of Data\\MSDS 7349 Project Final Draft}
 %
 %
 % author names and IEEE memberships
@@ -725,7 +725,7 @@ These results, post step 4, provide Bob with those individuals from the shared d
 
 Given that Bob was ultimately able to identify two individuals even if he was using an associated dataset, perturbation certainly should be considered for all datasets and weighed against the difficulties of ultimately interpreting the final model. But is a perturbed dataset the end-all-be-all of anonymization? Could individuals still be identified?
 
-Let's start over, but this time Bob has only a set of the perturbed data. If he can successfully reverse engineer the datset into human readable terms, then it's possible for him to identify an individual in the same method as above.
+Let us start over, but this time Bob has only a set of the perturbed data. If he can successfully reverse engineer the datset into human readable terms, then it's possible for him to identify an individual in the same method as above.
 The first step, of course, is seeing if Bob can decode the hash/encryption.
 
 A note on this process. We used a weak hashing method on purpose to illustrate a possible method of attack. A cryptographically secure method would not use a dictionary based salt, nor would that salt be static and independent of both the generator of the dataset and the recipient of the downloaded dataset.
