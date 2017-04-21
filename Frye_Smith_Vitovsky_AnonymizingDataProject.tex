@@ -710,7 +710,16 @@ To produce an example dataset of this visual attack, we randomly selected 50 rec
 
 \noindent \textbf {Is Stratification and K-Anonymization after removing PII sufficient?}
 
-As one is able to see in detail from viewing our iPython Notebook, Bob is able to get quite far in his efforts, identifying the Z-virus status of two individuals with high certainty.  Pertubation on a dataset creates a number of problems when it comes to interpreting and utilizing the data, thus many times you may be inclined to avoid doing so. Given our dataset, shared after removing PII / K-Anon Records and Stratifying the result set, Bob is able to attempt to detect a given individual from his 50 observations.\linebreak
+Pertubation on a dataset creates a number of problems when it comes to interpreting and utilizing the data, thus many times you may be inclined to avoid doing so. Given our dataset, shared after removing PII / K-Anonymization records and stratifying the result set, Bob can attempt to detect a given individual from his 50 observations. Bob performed the following steps to identify two individuals with nearly complete confidence, and many more with less confidence within the shared dataset:
+
+1) Aggregate the shared dataset on attributes Bob was able to capture visually from his photographs ("Sex", "Ethnicity", "Hispanic Latino", "HairColor", and "State"), computing the frequency count for each. This allows him to exploit the more unique characteristic of each observation by the combination of all values captured vs looking at one.
+
+2) Merge frequencies on the shared dataset with Bob’s data captured, finding those records with demographic matches.
+
+3) Filter merged data to those with a frequency count of 1.
+
+4) Merge filtered data with the original shared dataset.
+These results, post step 4, provide Bob with those individuals from the shared dataset he observed at the facility and have photos of that have the highest confidence in a match. Further insights may be drawn with less confidence, but for this report, only highest confidence matches were chosen for identification. Notice, we do not consider results with 100\% confidence, even though these observations were classified as stand-alone in the shared dataset. Because we do not know if and which observations were removed from the original study, it is very possible that there was another observation that we are unaware of in the study that was removed from the shared sample set. Ultimately, the data before perturbation, in our case study was extremely vulnerable even after removing PII / K-Anonymization records and stratifying the result set. \linebreak 
 
 \noindent \textbf{Is Perturbation sufficient?}
 
